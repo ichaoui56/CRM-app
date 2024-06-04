@@ -13,7 +13,16 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->integer('quantity');
+            $table->string('ups_tracking_number')->nullable();
+            $table->timestamp('ordered_at')->nullable();
+            $table->timestamp('arrived_at')->nullable();
+            $table->enum('status', ['ordered', 'in_transit', 'arrived', 'installed']);
             $table->timestamps();
+            
+            $table->foreignId('ticket_id')->constrained()->onDelete('cascade');
+            $table->foreignId('part_id')->constrained()->onDelete('cascade');
+            $table->foreignId('technician_id')->constrained('users')->onDelete('cascade');
         });
     }
 
