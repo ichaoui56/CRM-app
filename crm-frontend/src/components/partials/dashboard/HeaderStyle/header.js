@@ -267,8 +267,12 @@ const Header = memo((props) => {
                                         <p className="mb-0 caption-sub-title">Marketing Administrator</p>
                                     </div>
                                 </Dropdown.Toggle>
-                                <Dropdown.Menu className="dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <Dropdown.Item href="https://templates.iqonic.design/hope-ui/react/build/dashboard/app/user-profile">Profile</Dropdown.Item>
+                                <Dropdown.Menu className="dropdown-menu-end color-black" aria-labelledby="navbarDropdown">
+                                    <Dropdown.Item>
+                                        <Link to="/dashboard/app/user-profile">
+                                            Profile
+                                        </Link>
+                                    </Dropdown.Item>
                                     <Dropdown.Item href="https://templates.iqonic.design/hope-ui/react/build/dashboard/app/user-privacy-setting">Privacy Setting</Dropdown.Item>
                                     <Dropdown.Divider />
                                     <Dropdown.Item href="https://templates.iqonic.design/hope-ui/react/build/auth/sign-in">Logout</Dropdown.Item>
