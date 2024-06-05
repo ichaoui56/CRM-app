@@ -79,10 +79,10 @@ const Sidebar = memo((props) => {
         className={` ${sidebarColor} ${sidebarType.join(" ")} ${sidebarMenuStyle} ${sidebarHide.join(" ") ? 'sidebar-none' : 'sidebar'}   sidebar-base  `}
         data-sidebar="responsive"
       >
-        <div className="sidebar-header d-flex align-items-center justify-content-start">
+        <div className="sidebar-header d-flex align-items-center justify-content-center">
           <Link to="/dashboard" className="navbar-brand">
             <Logo />
-            <h4 className="logo-title">{props.app_name}</h4>
+            {/* <h4 className="logo-title">CBI Dell</h4> */}
           </Link>
           <div
             className="sidebar-toggle"
