@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -70,9 +71,22 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+
+    public function getUser(Request $request)
     {
-        //
+        if (Auth::check()) {
+            $user = Auth::user();
+            // User is logged in
+            return response()->json([
+                'user' => $user,
+                'message' => 'User is logged in.'
+            ]);
+        } else {
+            // User is not logged in
+            return response()->json([
+                'message' => 'User is not logged in.'
+            ], 401);
+        }
     }
 
     /**
