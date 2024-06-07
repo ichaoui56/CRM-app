@@ -135,7 +135,7 @@ const VerticalNav = memo((props) => {
                     <Accordion.Collapse eventKey="utilities-error">
                         <ul className="sub-nav">
                             <li className="nav-item">
-                                <Link className={`${location.pathname === '/errors/error404' ? 'active' : ''} nav-link`} to="/errors/error404">
+                                <Link className={`${location.pathname === '/dashboard/parts/parts-add' ? 'active' : ''} nav-link`} to="/dashboard/parts/parts-add">
                                     <i className="icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                             <g>
@@ -147,7 +147,7 @@ const VerticalNav = memo((props) => {
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className={`${location.pathname === '/errors/error500' ? 'active' : ''} nav-link`} to="/errors/error500">
+                                <Link className={`${location.pathname === '/dashboard/parts/parts-list' ? 'active' : ''} nav-link`} to="/dashboard/parts/parts-list">
                                     <i className="icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                             <g>
@@ -191,7 +191,7 @@ const VerticalNav = memo((props) => {
                     <Accordion.Collapse eventKey="sidebar-table">
                         <ul className="sub-nav">
                             <li className="nav-item">
-                                <Link className={`${location.pathname === '/dashboard/table/bootstrap-table' ? 'active' : ''} nav-link`} to="/dashboard/table/bootstrap-table">
+                                <Link className={`${location.pathname === '/dashboard/ticket/ticket-add' ? 'active' : ''} nav-link`} to="/dashboard/ticket/ticket-add">
                                     <i className="icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                             <g>
@@ -204,7 +204,7 @@ const VerticalNav = memo((props) => {
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className={`${location.pathname === '/dashboard/table/table-data' ? 'active' : ''} nav-link`} to="/dashboard/table/table-data">
+                                <Link className={`${location.pathname === 'dashboard/ticket/ticket-add' ? 'active' : ''} nav-link`} to="/dashboard/table/table-data">
                                     <i className="icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                             <g>
