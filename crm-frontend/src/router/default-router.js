@@ -22,6 +22,12 @@ import FormWizard from '../views/dashboard/from/form-wizard';
 import BootstrapTable from '../views/dashboard/table/bootstrap-table';
 import TableData from '../views/dashboard/table/table-data';
 
+//parts
+import PartAdd from '../views/dashboard/parts/parts-add';
+import PartsList from '../views/dashboard/parts/partsList';
+
+//ticket
+import TicketAdd from '../views/dashboard/ticket/ticket-add'
 // map
 import Vector from '../views/dashboard/maps/vector';
 import Google from '../views/dashboard/maps/google';
@@ -44,6 +50,7 @@ import RtlSupport from '../views/dashboard/special-pages/RtlSupport'
 import Admin from '../views/dashboard/admin/admin';
 import Default from '../layouts/dashboard/default';
 
+console.log(PartsList)
 
 export const DefaultRouter = [
     {
@@ -53,6 +60,18 @@ export const DefaultRouter = [
             {
                 path: '/',
                 element: <Index />
+            },
+            {
+                path: '/dashboard/parts/parts-add',
+                element: <PartAdd />
+            },
+            {
+                path: '/dashboard/parts/parts-list',
+                element: <PartsList />
+            },
+            {
+                path: '/dashboard/ticket/ticket-add',
+                element: <TicketAdd />
             },
             {
                 path: 'dashboard/special-pages/billing',
