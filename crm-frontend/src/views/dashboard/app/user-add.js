@@ -49,7 +49,7 @@ const UserAdd = () => {
          data.append(key, formData[key]);
       }
 
-      axios.post('http://127.0.0.1:8000/api/users', data, {
+      axios.post('http://127.0.0.1:8000/api/user', data, {
          headers: {
             'Content-Type': 'multipart/form-data',
          },
