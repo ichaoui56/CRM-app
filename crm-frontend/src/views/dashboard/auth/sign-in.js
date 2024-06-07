@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Row, Col, Image, Form, Button, ListGroup, } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
+import useAuth from '../../../hooks/useAuth';
 import Card from '../../../components/Card'
 
 // img
@@ -11,7 +12,20 @@ import linkedin from '../../../assets/images/brands/li.svg'
 import auth1 from '../../../assets/images/auth/01.png'
 
 const SignIn = () => {
-   let history = useNavigate()
+
+   const [email, setEmail] = useState('');
+   const [password, setPassword] = useState('');
+   const { login, loading, error } = useAuth();
+   const navigate = useNavigate();
+
+   const handleSignIn = async () => {
+      console.log(email,password);
+      const success = await login(email, password);
+      if (success) {
+         navigate('/'); 
+      }
+   };
+
    return (
       <>
          <section className="login-content">
@@ -32,18 +46,21 @@ const SignIn = () => {
                               </Link>
                               <h2 className="mb-2 text-center">Sign In</h2>
                               <p className="text-center">Login to stay connected.</p>
-                              <Form>
+                              <Form onSubmit={handleSignIn}>
                                  <Row>
                                     <Col lg="12">
                                        <Form.Group className="form-group">
                                           <Form.Label htmlFor="email" className="">Email</Form.Label>
-                                          <Form.Control type="email" className="" id="email" aria-describedby="email" placeholder=" " />
+                                          <Form.Control type="email"
+                                             value={email} onChange={(e) => setEmail(e.target.value)}
+                                             className="" id="email" aria-describedby="email" placeholder=" " />
                                        </Form.Group >
                                     </Col>
                                     <Col lg="12" className="">
                                        <Form.Group className="form-group">
                                           <Form.Label htmlFor="password" className="">Password</Form.Label>
-                                          <Form.Control type="password" className="" id="password" aria-describedby="password" placeholder=" " />
+                                          <Form.Control type="password"
+                                             value={password} onChange={(e) => setPassword(e.target.value)} className="" id="password" aria-describedby="password" placeholder=" " />
                                        </Form.Group>
                                     </Col>
                                     <Col lg="12" className="d-flex justify-content-between">
@@ -55,7 +72,9 @@ const SignIn = () => {
                                     </Col>
                                  </Row>
                                  <div className="d-flex justify-content-center">
-                                    <Button onClick={() => history.push('/dashboard')} type="button" variant="btn btn-primary">Sign In</Button>
+                                    <Button onClick={handleSignIn} type="button" variant="btn btn-primary" disabled={loading}>
+                                       {loading ? 'Signing In...' : 'Sign In'}
+                                    </Button>
                                  </div>
                                  <p className="text-center my-3">or sign in with other accounts?</p>
                                  <div className="d-flex justify-content-center">
@@ -79,6 +98,7 @@ const SignIn = () => {
                                  </p>
                               </Form>
                            </Card.Body>
+
                         </Card>
                      </Col>
                   </Row>
