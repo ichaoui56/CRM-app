@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PartController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TicketController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,11 +26,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/user', [UserController::class, 'store']);
 Route::post('/part', [PartController::class, 'store']);
 Route::get('/parts', [PartController::class, 'index']);
-
+Route::post('/add-ticket', [TicketController::class, 'addTicket']);
 
 Route::post('/login', [AuthController::class, 'login']);
 
+
 Route::middleware(['auth:api'])->group(function () {
-    Route::get('/authUser', [UserController::class, 'getUser']);
     Route::get('/users', [UserController::class, 'index']);
+    Route::get('/authUser', [UserController::class, 'getUser']);
 });
