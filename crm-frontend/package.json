@@ -68,6 +68,7 @@
     "sortablejs": "^1.14.0",
     "styled-components": "^5.3.5",
     "sweetalert2": "^11.11.0",
+    "sweetalert2-react-content": "^5.0.7",
     "swiper": "^8.4.7",
     "three": "^0.139.2",
     "waypoints": "^4.0.1",
