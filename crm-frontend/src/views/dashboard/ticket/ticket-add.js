@@ -1,11 +1,84 @@
-import React, { useState } from 'react'
-import { Row, Col, Form, Image } from 'react-bootstrap'
-import Card from '../../../components/Card'
-import { Link } from 'react-router-dom'
-// img
-import imgsuccess from '../../../assets/images/pages/img-success.png'
+import React, { useState } from 'react';
+import { Row, Col, Form, Image } from 'react-bootstrap';
+import Card from '../../../components/Card';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import imgsuccess from '../../../assets/images/pages/img-success.png';
+
 const TicketAdd = () => {
+    const [values, setValues] = useState({});
+    const [errors, setErrors] = useState({});
     const [show, AccountShow] = useState('A');
+
+    const validateStep = (step) => {
+        let newErrors = {};
+        if (step === 'A') {
+            if (!values.clientName) newErrors.clientName = 'Client name is required';
+            if (!values.clientAddress) newErrors.clientAddress = 'Client address is required';
+            if (!values.clientPhone) newErrors.clientPhone = 'Client phone number is required';
+            if (!values.contactName) newErrors.contactName = 'Contact name is required';
+            if (!values.contactEmail) newErrors.contactEmail = 'Contact email is required';
+            if (!values.contactPhone) newErrors.contactPhone = 'Contact phone number is required';
+            if (!values.clientCity) newErrors.clientCity = 'Client city is required';
+            if (!values.clientCountry) newErrors.clientCountry = 'Client country is required';
+        } else if (step === 'Account') {
+            if (!values.modelName) newErrors.modelName = 'Model name is required';
+            if (!values.tagNo) newErrors.tagNo = 'Tag number is required';
+            if (!values.modelNo) newErrors.modelNo = 'Model number is required';
+        } else if (step === 'Personal') {
+            if (!values.technicianName) newErrors.technicianName = 'Technician name is required';
+            if (!values.serviceType) newErrors.serviceType = 'Service type is required';
+            if (!values.problemDescription) newErrors.problemDescription = 'Problem description is required';
+        }
+        return newErrors;
+    };
+
+    const handleNext = async (step) => {
+        const newErrors = validateStep(show);
+        if (Object.keys(newErrors).length === 0) {
+            if (step === 'Image') {
+                try {
+                    const response = await axios.post('http://127.0.0.1:8000/api/add-ticket', values);
+                    if (response.status === 201) {
+                        // Ticket added successfully
+                        AccountShow(step);
+                        // Display success message with SweetAlert
+                        const MySwal = withReactContent(Swal);
+                        MySwal.fire({
+                            title: 'Success!',
+                            text: 'Ticket Added Successfully',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                } catch (error) {
+                    console.error('There was an error adding the ticket:', error);
+                    // Display error message with SweetAlert
+                    const MySwal = withReactContent(Swal);
+                    MySwal.fire({
+                        title: 'Error!',
+                        text: 'There was an error adding the ticket',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            } else {
+                AccountShow(step);
+            }
+        } else {
+            setErrors(newErrors);
+        }
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setValues({ ...values, [name]: value });
+
+        // Real-time validation
+        setErrors({ ...errors, [name]: value ? '' : `${name.replace(/([A-Z])/g, ' $1')} is required` });
+    };
     return (
         <>
             <div>
@@ -18,7 +91,7 @@ const TicketAdd = () => {
                                 </div>
                             </Card.Header>
                             <Card.Body>
-                                <Form id="form-wizard1" className="text-center mt-3">
+                                <Form id="form-wizard1" className="text-center mt-3" onSubmit={(e) => e.preventDefault()}>
                                     <ul id="top-tab-list" className="p-0 row list-inline">
                                         <li className={` ${show === 'Image' ? ' active done' : ''} ${show === 'Personal' ? ' active done' : ''} ${show === 'Account' ? ' active done' : ''} ${show === 'A' ? 'active' : ''} col-lg-3 col-md-6 text-start mb-2 active`} id="account">
                                             <Link to="#">
@@ -102,19 +175,40 @@ const TicketAdd = () => {
                                                 <div className="col-md-4">
                                                     <div className="form-group">
                                                         <label className="form-label">Client Name:*</label>
-                                                        <input type="email" required className="form-control" name="email" placeholder="Client name" />
+                                                        <input
+                                                            type="text"
+                                                            className={`form-control ${errors.clientName ? 'is-invalid' : values.clientName ? 'is-valid' : ''}`}
+                                                            name="clientName"
+                                                            placeholder="Client name"
+                                                            onChange={handleInputChange}
+                                                        />
+                                                        {errors.clientName && <div className="invalid-feedback">{errors.clientName}</div>}
                                                     </div>
                                                 </div>
                                                 <div className="col-md-4">
                                                     <div className="form-group">
-                                                        <label className="form-label">Adress:*</label>
-                                                        <input type="text" className="form-control" name="uname" placeholder="Client Adress" />
+                                                        <label className="form-label">Address:*</label>
+                                                        <input
+                                                            type="text"
+                                                            className={`form-control ${errors.clientAddress ? 'is-invalid' : values.clientAddress ? 'is-valid' : ''}`}
+                                                            name="clientAddress"
+                                                            placeholder="Client Address"
+                                                            onChange={handleInputChange}
+                                                        />
+                                                        {errors.clientAddress && <div className="invalid-feedback">{errors.clientAddress}</div>}
                                                     </div>
                                                 </div>
                                                 <div className="col-md-4">
                                                     <div className="form-group">
                                                         <label className="form-label">Phone Number:*</label>
-                                                        <input type="number" className="form-control" name="pwd" placeholder="Client Phone Number" />
+                                                        <input
+                                                            type="text"
+                                                            className={`form-control ${errors.clientPhone ? 'is-invalid' : values.clientPhone ? 'is-valid' : ''}`}
+                                                            name="clientPhone"
+                                                            placeholder="Client Phone Number"
+                                                            onChange={handleInputChange}
+                                                        />
+                                                        {errors.clientPhone && <div className="invalid-feedback">{errors.clientPhone}</div>}
                                                     </div>
                                                 </div>
                                             </div>
@@ -127,19 +221,40 @@ const TicketAdd = () => {
                                                 <div className="col-md-4">
                                                     <div className="form-group">
                                                         <label className="form-label">Contact Name:*</label>
-                                                        <input type="email" required className="form-control" name="email" placeholder="Contact name" />
+                                                        <input
+                                                            type="text"
+                                                            className={`form-control ${errors.contactName ? 'is-invalid' : values.contactName ? 'is-valid' : ''}`}
+                                                            name="contactName"
+                                                            placeholder="Contact name"
+                                                            onChange={handleInputChange}
+                                                        />
+                                                        {errors.contactName && <div className="invalid-feedback">{errors.contactName}</div>}
                                                     </div>
                                                 </div>
                                                 <div className="col-md-4">
                                                     <div className="form-group">
                                                         <label className="form-label">Email:*</label>
-                                                        <input type="text" className="form-control" name="uname" placeholder="Contact Email" />
+                                                        <input
+                                                            type="text"
+                                                            className={`form-control ${errors.contactEmail ? 'is-invalid' : values.contactEmail ? 'is-valid' : ''}`}
+                                                            name="contactEmail"
+                                                            placeholder="Contact Email"
+                                                            onChange={handleInputChange}
+                                                        />
+                                                        {errors.contactEmail && <div className="invalid-feedback">{errors.contactEmail}</div>}
                                                     </div>
                                                 </div>
                                                 <div className="col-md-4">
                                                     <div className="form-group">
                                                         <label className="form-label">Phone Number:*</label>
-                                                        <input type="number" className="form-control" name="pwd" placeholder="Contact Phone Number" />
+                                                        <input
+                                                            type="text"
+                                                            className={`form-control ${errors.contactPhone ? 'is-invalid' : values.contactPhone ? 'is-valid' : ''}`}
+                                                            name="contactPhone"
+                                                            placeholder="Contact Phone Number"
+                                                            onChange={handleInputChange}
+                                                        />
+                                                        {errors.contactPhone && <div className="invalid-feedback">{errors.contactPhone}</div>}
                                                     </div>
                                                 </div>
                                             </div>
@@ -147,19 +262,32 @@ const TicketAdd = () => {
                                                 <div className="col-md-6">
                                                     <div className="form-group">
                                                         <label className="form-label">City:*</label>
-                                                        <input type="email" required className="form-control" name="email" placeholder="Client city" />
+                                                        <input
+                                                            type="text"
+                                                            className={`form-control ${errors.clientCity ? 'is-invalid' : values.clientCity ? 'is-valid' : ''}`}
+                                                            name="clientCity"
+                                                            placeholder="Client city"
+                                                            onChange={handleInputChange}
+                                                        />
+                                                        {errors.clientCity && <div className="invalid-feedback">{errors.clientCity}</div>}
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <div className="form-group">
                                                         <label className="form-label">Country:*</label>
-                                                        <input type="text" className="form-control" name="uname" placeholder="Client Country" />
+                                                        <input
+                                                            type="text"
+                                                            className={`form-control ${errors.clientCountry ? 'is-invalid' : values.clientCountry ? 'is-valid' : ''}`}
+                                                            name="clientCountry"
+                                                            placeholder="Client Country"
+                                                            onChange={handleInputChange}
+                                                        />
+                                                        {errors.clientCountry && <div className="invalid-feedback">{errors.clientCountry}</div>}
                                                     </div>
                                                 </div>
-
                                             </div>
                                         </div>
-                                        <button type="button" name="next" className="btn btn-primary next action-button float-end" value="Next" onClick={() => AccountShow('Account')} >Next</button>
+                                        <button type="button" name="next" className="btn btn-primary next action-button float-end" value="Next" onClick={() => handleNext('Account')}>Next</button>
                                     </fieldset>
                                     <fieldset className={`${show === 'Account' ? 'd-block' : 'd-none'}`}>
                                         <div className="form-card text-start">
@@ -169,32 +297,53 @@ const TicketAdd = () => {
                                             <hr />
                                             <div className="row">
                                                 <div className="col-7">
-                                                    <h3 className="mb-4">Laptop Information:</h3>
+                                                    <h3 className="mb-4">Machine Information:</h3>
                                                 </div>
                                             </div>
                                             <div className="row">
                                                 <div className="col-md-4">
                                                     <div className="form-group">
                                                         <label className="form-label">Model Name: *</label>
-                                                        <input type="text" className="form-control" name="lname" placeholder="Last Name" />
+                                                        <input
+                                                            type="text"
+                                                            className={`form-control ${errors.modelName ? 'is-invalid' : values.modelName ? 'is-valid' : ''}`}
+                                                            name="modelName"
+                                                            placeholder="Model Name"
+                                                            onChange={handleInputChange}
+                                                        />
+                                                        {errors.modelName && <div className="invalid-feedback">{errors.modelName}</div>}
                                                     </div>
                                                 </div>
                                                 <div className="col-md-4">
                                                     <div className="form-group">
                                                         <label className="form-label">Tag No: *</label>
-                                                        <input type="text" className="form-control" name="fname" placeholder="First Name" />
+                                                        <input
+                                                            type="text"
+                                                            className={`form-control ${errors.tagNo ? 'is-invalid' : values.tagNo ? 'is-valid' : ''}`}
+                                                            name="tagNo"
+                                                            placeholder="Tag Number"
+                                                            onChange={handleInputChange}
+                                                        />
+                                                        {errors.tagNo && <div className="invalid-feedback">{errors.tagNo}</div>}
                                                     </div>
                                                 </div>
                                                 <div className="col-md-4">
                                                     <div className="form-group">
-                                                        <label className="form-label">Model No.: *</label>
-                                                        <input type="text" className="form-control" name="phno" placeholder="Contact No." />
+                                                        <label className="form-label">Model No: *</label>
+                                                        <input
+                                                            type="text"
+                                                            className={`form-control ${errors.modelNo ? 'is-invalid' : values.modelNo ? 'is-valid' : ''}`}
+                                                            name="modelNo"
+                                                            placeholder="Model Number"
+                                                            onChange={handleInputChange}
+                                                        />
+                                                        {errors.modelNo && <div className="invalid-feedback">{errors.modelNo}</div>}
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <button type="button" name="next" className="btn btn-primary next action-button float-end" value="Next" onClick={() => AccountShow('Personal')} >Next</button>
-                                        <button type="button" name="previous" className="btn btn-dark previous action-button-previous float-end me-1" value="Previous" onClick={() => AccountShow('A')} >Previous</button>
+                                        <button type="button" name="next" className="btn btn-primary next action-button float-end" value="Next" onClick={() => handleNext('Personal')}>Next</button>
+                                        <button type="button" name="previous" className="btn btn-dark previous action-button-previous float-end me-1" value="Previous" onClick={() => AccountShow('A')}>Previous</button>
                                     </fieldset>
                                     <fieldset className={`${show === 'Personal' ? 'd-block' : 'd-none'}`}>
                                         <div className="form-card text-start">
@@ -204,65 +353,70 @@ const TicketAdd = () => {
                                             <hr />
                                             <div className="row">
                                                 <div className="col-7">
-                                                    <h3 className="mb-4">Ticket Information:</h3>
+                                                    <h3 className="mb-4">Service Information:</h3>
                                                 </div>
                                             </div>
                                             <div className="row">
                                                 <div className="col-md-6">
                                                     <div className="form-group">
-                                                        <label className="form-label">Technien Name: *</label>
-                                                        <select className="form-control" name="modelName">
-                                                            <option value="option1">Option 1</option>
-                                                            <option value="option2">Option 2</option>
-                                                            <option value="option3">Option 3</option>
-                                                            {/* Add more options as needed */}
+                                                        <label className="form-label">Technician Name: *</label>
+                                                        <select
+                                                            className={`form-control ${errors.technicianName ? 'is-invalid' : values.technicianName ? 'is-valid' : ''}`}
+                                                            name="technicianName"
+                                                            onChange={handleInputChange}
+                                                        >
+                                                            <option value="">Select Technician</option>
+                                                            <option value="23">Option 1</option>
+                                                            <option value="23">Option 2</option>
+                                                            <option value="23">Option 3</option>
                                                         </select>
+                                                        {errors.technicianName && <div className="invalid-feedback">{errors.technicianName}</div>}
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <div className="form-group">
                                                         <label className="form-label">Service Type: *</label>
-                                                        <select className="form-control" name="modelName">
-                                                            <option value="option1">Option 1</option>
-                                                            <option value="option2">Option 2</option>
-                                                            <option value="option3">Option 3</option>
-                                                            {/* Add more options as needed */}
+                                                        <select
+                                                            className={`form-control ${errors.serviceType ? 'is-invalid' : values.serviceType ? 'is-valid' : ''}`}
+                                                            name="serviceType"
+                                                            onChange={handleInputChange}
+                                                        >
+                                                            <option value="">Select Technician</option>
+                                                            <option value="23">Option 1</option>
+                                                            <option value="23">Option 2</option>
+                                                            <option value="23">Option 3</option>
                                                         </select>
+                                                        {errors.serviceType && <div className="invalid-feedback">{errors.serviceType}</div>}
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div className="row">
                                                 <div className="col-md-12">
                                                     <div className="form-group">
                                                         <label className="form-label">Problem Description: *</label>
-                                                        <textarea type="text" className="form-control" name="phno" placeholder="Contact No."></textarea>
+                                                        <textarea
+                                                            className={`form-control ${errors.problemDescription ? 'is-invalid' : values.problemDescription ? 'is-valid' : ''}`}
+                                                            name="problemDescription"
+                                                            placeholder="Describe the problem"
+                                                            onChange={handleInputChange}
+                                                        ></textarea>
+                                                        {errors.problemDescription && <div className="invalid-feedback">{errors.problemDescription}</div>}
                                                     </div>
                                                 </div>
+                                            </div>
                                         </div>
-                                        <button type="button" name="next" className="btn btn-primary next action-button float-end" value="Submit" onClick={() => AccountShow('Image')} >Submit</button>
-                                        <button type="button" name="previous" className="btn btn-dark previous action-button-previous float-end me-1" value="Previous" onClick={() => AccountShow('Account')} >Previous</button>
+                                        <button type="button" onClick={() => handleNext('Image')}>Submit</button>
+                                        <button type="button" name="previous" className="btn btn-dark previous action-button-previous float-end me-1" value="Previous" onClick={() => AccountShow('Account')}>Previous</button>
                                     </fieldset>
                                     <fieldset className={`${show === 'Image' ? 'd-block' : 'd-none'}`}>
-                                        <div className="form-card">
-                                            <div className="row">
+                                        <div className="form-card text-center">
+                                            <div className="row justify-content-center">
                                                 <div className="col-7">
-                                                    <h3 className="mb-4 text-left">Finish:</h3>
-                                                </div>
-                                                <div className="col-5">
-                                                    <h2 className="steps">Step 4 - 4</h2>
+                                                    <h3 className="mb-4">Success!</h3>
+                                                    <Image src={imgsuccess} className="img-fluid" alt="Success" />
                                                 </div>
                                             </div>
-                                            <br /><br />
-                                            <h2 className="text-success text-center"><strong>SUCCESS !</strong></h2>
-                                            <br />
-                                            <div className="row justify-content-center">
-                                                <div className="col-3"> <Image src={imgsuccess} className="img-fluid" alt="fit-image" /> </div>
-                                            </div>
-                                            <br /><br />
-                                            <div className="row justify-content-center">
-                                                <div className="col-7 text-center">
-                                                    <h5 className="purple-text text-center">You Have Successfully Signed Up</h5>
-                                                </div>
-                                            </div>
+                                            <h5 className="text-center">Ticket Added Successfully</h5>
                                         </div>
                                     </fieldset>
                                 </Form>
