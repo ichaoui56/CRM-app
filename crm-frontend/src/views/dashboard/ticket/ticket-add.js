@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Form, Image } from 'react-bootstrap';
 import Card from '../../../components/Card';
 import axios from 'axios';
@@ -11,6 +11,7 @@ const TicketAdd = () => {
     const [values, setValues] = useState({});
     const [errors, setErrors] = useState({});
     const [show, AccountShow] = useState('A');
+    const [technicians, setTechnicians] = useState([]); 
 
     const validateStep = (step) => {
         let newErrors = {};
@@ -35,16 +36,27 @@ const TicketAdd = () => {
         return newErrors;
     };
 
+    useEffect(() => {
+        const fetchTechnicians = async () => {
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/api/users');
+                setTechnicians(response.data.data); 
+                console.log(response.data.data);
+            } catch (error) {
+                console.error('Error fetching technicians:', error);
+            }
+        };
+        fetchTechnicians();
+    }, []);
+
     const handleNext = async (step) => {
         const newErrors = validateStep(show);
         if (Object.keys(newErrors).length === 0) {
             if (step === 'Image') {
                 try {
-                    const response = await axios.post('http://127.0.0.1:8000/api/add-ticket', values);
+                    const response = await axios.post('http://127.0.0.1:8000/api/addTicket', values);
                     if (response.status === 201) {
-                        // Ticket added successfully
                         AccountShow(step);
-                        // Display success message with SweetAlert
                         const MySwal = withReactContent(Swal);
                         MySwal.fire({
                             title: 'Success!',
@@ -55,7 +67,6 @@ const TicketAdd = () => {
                     }
                 } catch (error) {
                     console.error('There was an error adding the ticket:', error);
-                    // Display error message with SweetAlert
                     const MySwal = withReactContent(Swal);
                     MySwal.fire({
                         title: 'Error!',
@@ -366,9 +377,11 @@ const TicketAdd = () => {
                                                             onChange={handleInputChange}
                                                         >
                                                             <option value="">Select Technician</option>
-                                                            <option value="23">Option 1</option>
-                                                            <option value="23">Option 2</option>
-                                                            <option value="23">Option 3</option>
+                                                            {technicians.map((tech) => (
+                                                                <option key={tech.id} value={`${tech.id}`}>
+                                                                    {tech.first_name} {tech.last_name}
+                                                                </option>
+                                                            ))}
                                                         </select>
                                                         {errors.technicianName && <div className="invalid-feedback">{errors.technicianName}</div>}
                                                     </div>
@@ -381,10 +394,10 @@ const TicketAdd = () => {
                                                             name="serviceType"
                                                             onChange={handleInputChange}
                                                         >
-                                                            <option value="">Select Technician</option>
-                                                            <option value="23">Option 1</option>
-                                                            <option value="23">Option 2</option>
-                                                            <option value="23">Option 3</option>
+                                                            <option value="">Select Service Type</option>
+                                                            <option value="Maintenance">Maintenance</option>
+                                                            <option value="Repair">Repair</option>
+                                                            <option value="Installation">Installation</option>
                                                         </select>
                                                         {errors.serviceType && <div className="invalid-feedback">{errors.serviceType}</div>}
                                                     </div>
@@ -413,12 +426,12 @@ const TicketAdd = () => {
                                             <div className="row justify-content-center">
                                                 <div className="col-7">
                                                     <h3 className="mb-4">Success!</h3>
-                                                    <Image src={imgsuccess} className="img-fluid" alt="Success" />
+                                                    <Image src={imgsuccess} className="img-fluid"  style={{ maxWidth: "100%", height: "300px" }} alt="Success" />
                                                 </div>
                                             </div>
-                                            <h5 className="text-center">Ticket Added Successfully</h5>
                                         </div>
                                     </fieldset>
+                                    
                                 </Form>
                             </Card.Body>
                         </Card>
