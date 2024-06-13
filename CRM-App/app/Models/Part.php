@@ -9,7 +9,7 @@ class Part extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name','part_description','part_picture'];
 
     public function orders()
     {
