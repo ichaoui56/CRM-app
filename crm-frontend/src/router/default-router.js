@@ -28,6 +28,8 @@ import PartsList from '../views/dashboard/parts/partsList';
 
 //ticket
 import TicketAdd from '../views/dashboard/ticket/ticket-add'
+import TicketList from '../views/dashboard/ticket/ticket-list'
+
 // map
 import Vector from '../views/dashboard/maps/vector';
 import Google from '../views/dashboard/maps/google';
@@ -50,8 +52,6 @@ import RtlSupport from '../views/dashboard/special-pages/RtlSupport'
 import Admin from '../views/dashboard/admin/admin';
 import Default from '../layouts/dashboard/default';
 
-console.log(PartsList)
-
 export const DefaultRouter = [
     {
         path: '/',
@@ -68,6 +68,10 @@ export const DefaultRouter = [
             {
                 path: '/dashboard/parts/parts-list',
                 element: <PartsList />
+            },
+            {
+                path: '/dashboard/parts/ticket-list',
+                element: <TicketList />
             },
             {
                 path: '/dashboard/ticket/ticket-add',
