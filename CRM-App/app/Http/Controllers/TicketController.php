@@ -69,7 +69,7 @@ class TicketController extends Controller
             'technician_id' => $request->technicianName,
             'service_type' => $validated['serviceType'],
             'problem_description' => $validated['problemDescription'],
-            // 'status' => 'Open',
+            'status' => 'diagnostic',
         ]);
 
         return response()->json(['message' => 'Ticket added successfully!', 'ticket' => $ticket], 201);
