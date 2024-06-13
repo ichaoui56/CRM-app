@@ -8,7 +8,9 @@ import { Link } from 'react-router-dom';
 const PartAdd = () => {
     const [validated, setValidated] = useState(false);
     const [formData, setFormData] = useState({
-        part_name: ''
+        name: '',
+        part_description: '',
+        part_picture: null
     });
 
     const handleChange = (e) => {
@@ -49,7 +51,9 @@ const PartAdd = () => {
 
                 // Clear form inputs
                 setFormData({
-                    part_name: ''
+                    name: '',
+                    part_description: '',
+                    part_picture: null
                 });
                 setValidated(false);
             })
@@ -86,19 +90,46 @@ const PartAdd = () => {
                             </div>
                         </Card.Header>
                         <Card.Body>
-                            <p className="d-flex justify-content-center">Here you can add all parts needed for the creation of the ticktes</p>
+                            <p className="d-flex justify-content-center">Here you can add all parts needed for the creation of the tickets</p>
                             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                                 <Row className="mb-3 d-flex justify-content-center">
                                     <Col md="6">
-                                        <Form.Control
-                                            type="text"
-                                            name="part_name"
-                                            value={formData.part_name}
-                                            onChange={handleChange}
-                                            id="validationCustom01"
-                                            required
-                                        />
-                                        <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                        <Form.Group controlId="validationCustom01">
+                                            <Form.Label>Part Name</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="name"
+                                                value={formData.name}
+                                                onChange={handleChange}
+                                                required
+                                            />
+                                            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col md="6">
+                                        <Form.Group controlId="validationCustom02">
+                                            <Form.Label>Description</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="part_description"
+                                                value={formData.part_description}
+                                                onChange={handleChange}
+                                                required
+                                            />
+                                            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col md="6">
+                                        <Form.Group controlId="validationCustom03">
+                                            <Form.Label>Part Picture</Form.Label>
+                                            <Form.Control
+                                                type="file"
+                                                name="part_picture"
+                                                onChange={handleChange}
+                                                required
+                                            />
+                                            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                        </Form.Group>
                                     </Col>
                                     <hr className='mb-3 mt-3' />
                                     <div className="col-12 d-flex justify-content-center">
