@@ -18,9 +18,11 @@ const useAuth = () => {
             const { token } = response.data;
             console.log(response.data);
             localStorage.setItem('token', token);
-            if (localStorage.setItem('token', token)) {
+            if (token) {
+                console.log('test1');
+                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             }
-            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            console.log('test2');
 
             setLoading(false);
             return true;

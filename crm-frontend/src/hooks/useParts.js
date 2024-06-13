@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const useParts = (searchParams) => {
+const useParts = () => {
     const [parts, setParts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -9,9 +9,7 @@ const useParts = (searchParams) => {
     useEffect(() => {
         const fetchParts = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:8000/api/parts', {
-                    params: searchParams,
-                });
+                const response = await axios.get('http://127.0.0.1:8000/api/parts');
                 setParts(response.data.data);
             } catch (error) {
                 setError(error.message);
@@ -21,9 +19,9 @@ const useParts = (searchParams) => {
         };
 
         fetchParts();
-    }, [searchParams]);
+    }, []);
 
-    return { parts, loading, error };
+    return { parts, loading, error, setParts }; // Include setParts here
 };
 
 export default useParts;
