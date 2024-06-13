@@ -3,7 +3,7 @@ import { Navbar, Container, Nav, Dropdown } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import CustomToggle from '../../../dropdowns'
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUser } from '../../../../store/authSlice.js';
+// import { fetchUser } from '../../../../store/authSlice.js';
 
 //img
 import flag1 from '../../../../assets/images/Flag/flag001.png'
@@ -34,10 +34,10 @@ const Header = memo((props) => {
     const headerNavbar = useSelector(SettingSelector.header_navbar)
 
     const dispatch = useDispatch();
-    const user = useSelector(state => state.auth.user);
+    // const user = useSelector(state => state.auth.user);
     
-    const userName = user ? user.first_name : '';
-    const userEmail = user ? user.email : '';
+    // const userName = user ? user.first_name : '';
+    // const userEmail = user ? user.email : '';
 
     useEffect(() => {
         // navbarstylemode
@@ -50,8 +50,7 @@ const Header = memo((props) => {
                 }
             }
         }
-        console.log(fetchUser);
-        dispatch(fetchUser());
+        ;
     }, [dispatch]);
     const minisidebar = () => {
         document.getElementsByTagName('ASIDE')[0].classList.toggle('sidebar-mini')
@@ -263,17 +262,17 @@ const Header = memo((props) => {
                                     <img src={avatars6} alt="User-Profile" className="theme-color-yellow-img img-fluid avatar avatar-50 avatar-rounded" />
                                     <img src={avatars4} alt="User-Profile" className="theme-color-pink-img img-fluid avatar avatar-50 avatar-rounded" />
                                     <div className="caption ms-3 d-none d-md-block ">
-                                        {user ? (
+                                        {/* {user ? (
                                             <>
                                                 <h6 className="mb-0 caption-title">Welcome, {user.first_name} {user.last_name}</h6>
                                                 <p className="mb-0 caption-sub-title">Email: {user.email}</p>
                                             </>
-                                        ) : (
+                                        ) : ( */}
                                             <>
                                                 <h6 className="mb-0 caption-title">Welcome, Guest</h6>
                                                 <p className="mb-0 caption-sub-title">Please sign in</p>
                                             </>
-                                        )}
+                                        {/* )} */}
                                     </div>
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu className="dropdown-menu-end color-black" aria-labelledby="navbarDropdown">
