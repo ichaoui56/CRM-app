@@ -1,0 +1,19 @@
+/* src/styles/ticket-list.css */
+.datatable-container {
+    max-height: 450px; /* Adjust as needed */
+    overflow-y: auto;
+    background-color: #f5f5f5; /* Light grey background */
+  }
+  
+  .datatable-container tbody tr {
+    background-color: white; /* Ensure rows have a background color */
+  }
+  
+  .datatable-container tbody tr:nth-child(odd) {
+    background-color: #f9f9f9; /* Alternate row color for better visibility */
+  }
+  
+  .dropdown-menu {
+    z-index: 1000; /* Ensure dropdowns show above other elements */
+  }
+  
