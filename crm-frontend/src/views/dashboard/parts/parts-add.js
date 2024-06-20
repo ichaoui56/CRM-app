@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../../API/axios.js'; // Import the configured Axios instance
 import Swal from 'sweetalert2';
-import { Row, Col, Image, Form, Button } from 'react-bootstrap';
+import { Row, Col, Form, Button } from 'react-bootstrap';
 import Card from '../../../components/Card';
-import { Link } from 'react-router-dom';
 
 const PartAdd = () => {
     const [validated, setValidated] = useState(false);
@@ -36,7 +35,7 @@ const PartAdd = () => {
             data.append(key, formData[key]);
         }
 
-        axios.post('http://127.0.0.1:8000/api/part', data, {
+        axiosInstance.post('/api/part', data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
