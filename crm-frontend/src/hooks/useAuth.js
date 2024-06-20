@@ -15,17 +15,35 @@ const useAuth = () => {
                 password: password,
             });
 
-            const { token } = response.data;
-            console.log(response.data);
-            localStorage.setItem('token', token);
-            if (token) {
-                console.log('test1');
+            if (response.status === 204) {
+                // No Content response (204) typically means successful login without data
+                const token = localStorage.getItem('token');
+                console.log(token);
+                if (token) {
+                    console.log(token);
+                    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                    setLoading(false);
+                    return true;
+                } else {
+                    console.log(token);
+                    setError('Token not found in local storage');
+                    setLoading(false);
+                    return false;
+                }
+            } else if (response.status === 200) {
+                // Successful login with data (typically a token)
+                const { token } = response.data;
+                localStorage.setItem('token', token);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-            }
-            console.log('test2');
 
-            setLoading(false);
-            return true;
+                setLoading(false);
+                return true;
+            } else {
+                // Handle other status codes if needed
+                setError(`Login failed with status: ${response.status}`);
+                setLoading(false);
+                return false;
+            }
         } catch (err) {
             setError(err.response ? err.response.data : 'Login failed');
             setLoading(false);
