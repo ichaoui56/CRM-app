@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axiosInstance from '../../../API/axios.js'; // Import the configured Axios instance
 import Swal from 'sweetalert2';
+import axios from 'axios';
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import Card from '../../../components/Card';
 
@@ -35,7 +35,7 @@ const PartAdd = () => {
             data.append(key, formData[key]);
         }
 
-        axiosInstance.post('/api/part', data, {
+        axios.post('http://127.0.0.1:8000/api/part', data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
