@@ -9,7 +9,11 @@ class Ticket extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['contact_id', 'laptop_id', 'technician_id', 'service_type', 'problem_description', 'status'];
+    public $incrementing = false; // Disable auto-incrementing
+    protected $primaryKey = 'id'; // Specify 'ticket_id' as primary key
+    protected $keyType = 'string'; // Ensure 'ticket_id' is treated as a string
+
+    protected $fillable = ['id', 'contact_id', 'laptop_id', 'technician_id', 'service_type', 'problem_description', 'status'];
 
     public function contact()
     {

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tickets', function (Blueprint $table) {
-            $table->id();
+            $table->string('id')->primary();
             $table->string('service_type');
             $table->text('problem_description');
             $table->enum('status', ['diagnostic', 'waiting_for_parts', 'in_repair', 'completed']);

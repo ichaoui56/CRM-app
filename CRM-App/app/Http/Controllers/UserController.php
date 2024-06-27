@@ -15,23 +15,31 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-
         Log::info('Incoming request data:', ['params' => $request->all()]);
-
+    
         $query = User::query();
-
+    
+        // Example sorting by last updated first
+        $query->orderByDesc('updated_at');
+    
+        // Example sorting by last added first (assuming 'created_at' field exists)
+        $query->orderByDesc('created_at');
+    
+        // Additional filtering based on request parameters if needed
         // if ($request->has('id')) {
         //     $query->where('id', $request->id);
         // }
-
+    
         // if ($request->has('city')) {
         //     $query->where('city', $request->city);
         // }
-
+    
         $perPage = $request->get('per_page', 5);
         $users = $query->paginate($perPage);
+    
         return response()->json($users);
     }
+    
 
 
     /**
@@ -52,7 +60,7 @@ class UserController extends Controller
 
         $profilePicturePath = null;
         if ($request->hasFile('profile_picture')) {
-            $profilePicturePath = $request->file('profile_picture')->store('profile_pictures', 'public');
+            $profilePicturePath = $request->file('profile_picture')->store('images', 'public');
         }
 
         $user = User::create([
@@ -93,15 +101,32 @@ class UserController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
-        //
-    }
+{
+    $request->validate([
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'phone_number' => 'required|string|max:15',
+        'city' => 'required|string|max:255',
+        'current_address' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+    ]);
+
+    $user = User::findOrFail($id);
+    $user->update($request->all());
+
+    return response()->json(['user' => $user]);
+}
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->delete();
+    
+        return response()->json(['message' => 'User deleted successfully.']);
     }
+    
 }

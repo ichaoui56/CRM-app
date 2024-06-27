@@ -9,7 +9,7 @@ class Laptop extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['client_id', 'technician_id', 'ticket_id', 'tag', 'model_number', 'model_name'];
+    protected $fillable = ['client_id', 'comment', 'technician_id', 'ticket_id', 'tag', 'model_number', 'model_name'];
 
     public function client()
     {

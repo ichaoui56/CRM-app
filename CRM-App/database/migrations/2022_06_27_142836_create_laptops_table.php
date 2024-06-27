@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('tag');
             $table->string('model_number');
+            $table->string('comment');
             $table->string('model_name');
             $table->timestamps();
             

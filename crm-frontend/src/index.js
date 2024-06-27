@@ -1,41 +1,40 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
 
-//router
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-//store
-import { Provider } from "react-redux";
-//reducer
-import { store } from "./store";
+// Router and Routes
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from './store';
+import Index from './views/index';
+import { IndexRouters } from './router';
+import { SimpleRouter } from './router/simple-router';
+import { DefaultRouter } from './router/default-router'; // Adjust the path if needed
 
-import Index from "./views/index";
-import { IndexRouters } from "./router";
-import { SimpleRouter } from "./router/simple-router";
-import { DefaultRouter } from "./router/default-router";
-
+// Create browser router instance
 const router = createBrowserRouter([
   {
-    path: "/documentation",
+    path: '/documentation',
     element: <Index />,
   },
-  ...DefaultRouter,
+  ...DefaultRouter, // Include DefaultRouter here
   ...IndexRouters,
-  ...SimpleRouter
-] ,{basename: process.env.PUBLIC_URL });
+  ...SimpleRouter,
+], { basename: process.env.PUBLIC_URL });
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+// Render the app
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
       <App>
-        <RouterProvider router={router}></RouterProvider>
+        <RouterProvider router={router}>
+          {/* Your App components here */}
+        </RouterProvider>
       </App>
     </Provider>
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+// Measure performance
 reportWebVitals();

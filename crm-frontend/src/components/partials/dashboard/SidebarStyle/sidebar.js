@@ -10,7 +10,7 @@ import * as SettingSelector from "../../../../store/setting/selectors.ts";
 
 // Redux Selector / Action
 import { useSelector } from "react-redux";
-import Logo from '../../components/logo';
+import Logo from '../../../partials/components/logo.js';
 
 // import SidebarDark from '../../components/settingoffcanvas'
 

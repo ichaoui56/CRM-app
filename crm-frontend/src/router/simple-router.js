@@ -1,5 +1,6 @@
 import React from 'react'
-// import { Switch, Route } from 'react-router-dom'
+
+import PublicRoute from "./PublicRoute"; 
 
 // auth
 import ConfirmMail from '../views/dashboard/auth/confirm-mail'
@@ -11,6 +12,7 @@ import SignUp from '../views/dashboard/auth/sign-up'
 import Error404 from '../views/dashboard/errors/error404'
 import Error500 from '../views/dashboard/errors/error500'
 import Maintenance from '../views/dashboard/errors/maintenance'
+import Newpw from '../views/dashboard/auth/new-password'
 
 // const SimpleRouter = () => {
 //     return (
@@ -36,11 +38,16 @@ import Maintenance from '../views/dashboard/errors/maintenance'
 export const SimpleRouter = [
     {
         path: 'auth/sign-in',
-        element: <SignIn />
+        element: <PublicRoute element={SignIn} />
+    },
+    
+    {
+        path: 'auth/new-pw/:token',
+        element: <PublicRoute element={Newpw} />
     },
     {
         path: 'auth/sign-up',
-        element: <SignUp />
+        element: <PublicRoute element={SignUp} />
     },
     {
         path: 'auth/confirm-mail',
@@ -52,7 +59,7 @@ export const SimpleRouter = [
     },
     {
         path: 'auth/recoverpw',
-        element: <Recoverpw />
+        element: <PublicRoute element={Recoverpw} />
     },
     {
         path: 'errors/error404',

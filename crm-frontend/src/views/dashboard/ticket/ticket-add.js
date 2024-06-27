@@ -26,6 +26,7 @@ const TicketAdd = () => {
             if (!values.clientCountry) newErrors.clientCountry = 'Client country is required';
         } else if (step === 'Account') {
             if (!values.modelName) newErrors.modelName = 'Model name is required';
+            if (!values.comment) newErrors.comment = 'Comment is required';
             if (!values.tagNo) newErrors.tagNo = 'Tag number is required';
             if (!values.modelNo) newErrors.modelNo = 'Model number is required';
         } else if (step === 'Personal') {
@@ -351,6 +352,20 @@ const TicketAdd = () => {
                                                         {errors.modelNo && <div className="invalid-feedback">{errors.modelNo}</div>}
                                                     </div>
                                                 </div>
+                                                <div className="row">
+                                                <div className="col-md-12">
+                                                    <div className="form-group">
+                                                        <label className="form-label">Comment: *</label>
+                                                        <textarea
+                                                            className={`form-control ${errors.comment ? 'is-invalid' : values.comment ? 'is-valid' : ''}`}
+                                                            name="comment"
+                                                            placeholder="Give a comment"
+                                                            onChange={handleInputChange}
+                                                        ></textarea>
+                                                        {errors.comment && <div className="invalid-feedback">{errors.comment}</div>}
+                                                    </div>
+                                                </div>
+                                            </div>
                                             </div>
                                         </div>
                                         <button type="button" name="next" className="btn btn-primary next action-button float-end" value="Next" onClick={() => handleNext('Personal')}>Next</button>
@@ -418,7 +433,7 @@ const TicketAdd = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <button type="button" onClick={() => handleNext('Image')}>Submit</button>
+                                        <button type="button" className="btn btn-primary next action-button float-end" onClick={() => handleNext('Image')}>Submit</button>
                                         <button type="button" name="previous" className="btn btn-dark previous action-button-previous float-end me-1" value="Previous" onClick={() => AccountShow('Account')}>Previous</button>
                                     </fieldset>
                                     <fieldset className={`${show === 'Image' ? 'd-block' : 'd-none'}`}>

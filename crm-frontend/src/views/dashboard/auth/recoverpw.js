@@ -1,14 +1,31 @@
-import React from 'react'
-import { Row, Col, Image, Form, Button } from 'react-bootstrap'
-import { Link, useNavigate } from 'react-router-dom'
-import Card from '../../../components/Card'
-
-
+import React, { useState } from 'react';
+import { Row, Col, Image, Form, Button } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Card from '../../../components/Card';
 
 // img
-import auth2 from '../../../assets/images/auth/02.png'
+import auth2 from '../../../assets/images/auth/02.png';
+import Logo from '../../../components/partials/components/logo';
+
 const Recoverpw = () => {
-   let history = useNavigate()
+   const navigate = useNavigate();
+   const [email, setEmail] = useState('');
+   const [error, setError] = useState('');
+   const [success, setSuccess] = useState('');
+
+   const handleReset = async () => {
+      try {
+         const response = await axios.post('http://127.0.0.1:8000/api/forgot-password', { email });
+         setSuccess(response.data.status);
+         setError('');
+         setTimeout(() => navigate('/auth/sign-in'), 3000); // Redirect after 3 seconds
+      } catch (err) {
+         setError(err.response.data.errors.email[0]);
+         setSuccess('');
+      }
+   };
+
    return (
       <>
          <section className="login-content">
@@ -19,15 +36,9 @@ const Recoverpw = () => {
                <Col md="6" className="p-0">
                   <Card className="card-transparent auth-card shadow-none d-flex justify-content-center mb-0">
                      <Card.Body>
-                        <Link to="/dashboard" className="navbar-brand d-flex align-items-center mb-3">
-                           <svg width="30" className="text-primary" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <rect x="-0.757324" y="19.2427" width="28" height="4" rx="2" transform="rotate(-45 -0.757324 19.2427)" fill="currentColor" />
-                              <rect x="7.72803" y="27.728" width="28" height="4" rx="2" transform="rotate(-45 7.72803 27.728)" fill="currentColor" />
-                              <rect x="10.5366" y="16.3945" width="16" height="4" rx="2" transform="rotate(45 10.5366 16.3945)" fill="currentColor" />
-                              <rect x="10.5562" y="-0.556152" width="28" height="4" rx="2" transform="rotate(45 10.5562 -0.556152)" fill="currentColor" />
-                           </svg>
-                           <h4 className="logo-title ms-3">Hope UI</h4>
-                        </Link>
+                     <div className='d-flex justify-content-center mb-5'>
+                                        <Logo />
+                                    </div>
                         <h2 className="mb-2">Reset Password</h2>
                         <p>Enter your email address and we'll send you an email with instructions to reset your password.</p>
                         <Form>
@@ -35,11 +46,21 @@ const Recoverpw = () => {
                               <Col lg="12" className="col-lg-12">
                                  <Form.Group className="floating-label">
                                     <Form.Label htmlFor="email" className="form-label">Email</Form.Label>
-                                    <Form.Control type="email" className="form-control" id="email" aria-describedby="email" placeholder=" " />
+                                    <Form.Control
+                                       type="email"
+                                       className="form-control"
+                                       id="email"
+                                       aria-describedby="email"
+                                       placeholder=" "
+                                       value={email}
+                                       onChange={(e) => setEmail(e.target.value)}
+                                    />
                                  </Form.Group>
                               </Col>
                            </Row>
-                           <Button onClick={() => history.push('/auth/sign-in')} className="mt-3" type="button" variant="primary">Reset</Button>
+                           {error && <div className="alert alert-danger mt-3">{error}</div>}
+                           {success && <div className="alert alert-success mt-3">{success}</div>}
+                           <Button onClick={handleReset} className="mt-3" type="button" variant="primary">Reset</Button>
                         </Form>
                      </Card.Body>
                   </Card>
@@ -57,7 +78,7 @@ const Recoverpw = () => {
             </Row>
          </section>
       </>
-   )
-}
+   );
+};
 
-export default Recoverpw
+export default Recoverpw;
