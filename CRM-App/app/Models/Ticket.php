@@ -13,7 +13,18 @@ class Ticket extends Model
     protected $primaryKey = 'id'; // Specify 'ticket_id' as primary key
     protected $keyType = 'string'; // Ensure 'ticket_id' is treated as a string
 
-    protected $fillable = ['id', 'contact_id', 'laptop_id', 'technician_id', 'service_type', 'problem_description', 'status'];
+    protected $fillable = [
+        'id',
+        'contact_id',
+        'laptop_id',
+        'technician_id',
+        'service_type',
+        'problem_description',
+        'status',
+        'diagnostic_date',
+        'preparation_date',
+        'finished_date',
+    ];
 
     public function contact()
     {
