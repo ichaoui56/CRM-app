@@ -9,16 +9,21 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['ticket_id', 'part_id', 'technician_id', 'quantity', 'ups_tracking_number', 'ordered_at', 'arrived_at', 'status'];
+    protected $fillable = [
+        'dps_number', 'ups_tracking_number', 'ordered_at', 'arrived_at', 'status',
+        'ticket_id', 'technician_id'
+    ];
+
+    protected $dates = ['ordered_at', 'arrived_at'];
 
     public function ticket()
     {
         return $this->belongsTo(Ticket::class);
     }
 
-    public function part()
+    public function parts()
     {
-        return $this->belongsTo(Part::class);
+        return $this->belongsToMany(Part::class, 'order_part');
     }
 
     public function technician()
