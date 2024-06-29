@@ -22,10 +22,10 @@ class TicketController extends Controller
 
     public function show($id)
     {
-        $ticket = Ticket::with(['contact.client', 'laptop', 'technician'])->findOrFail($id);
+        $ticket = Ticket::with(['contact.client', 'laptop', 'technician','orders.parts'])->findOrFail($id);
         return response()->json($ticket);
     }
-
+    
     /**
      * Store a newly created resource in storage.
      */
@@ -84,7 +84,7 @@ class TicketController extends Controller
             'technician_id' => $request->technicianName,
             'service_type' => $validated['serviceType'],
             'problem_description' => $validated['problemDescription'],
-            'status' => 'diagnostic',
+            'status' => 'created',
         ]);
 
         return response()->json(['message' => 'Ticket added successfully!', 'ticket' => $ticket], 201);
@@ -97,10 +97,41 @@ class TicketController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $ticket = Ticket::findOrFail($id);
+    
+        // Update the ticket attributes
+        $ticket->update($request->only([
+            'status'
+        ]));
+    
+        // Check status to update corresponding dates
+        if ($request->has('status')) {
+            $status = $request->input('status');
+    
+            // Update diagnostic_date
+            if ($status === 'diagnostic' && !$ticket->diagnostic_date) {
+                $ticket->diagnostic_date = now();
+            }
+    
+            // Update preparation_date
+            if ($status === 'in_repair' && !$ticket->preparation_date) {
+                $ticket->preparation_date = now();
+            }
+    
+            // Update finished_date
+            if ($status === 'finished' && !$ticket->finished_date) {
+                $ticket->finished_date = now();
+            }
+    
+            // Save the ticket after updating dates
+            $ticket->save();
+        }
+    
+        return response()->json($ticket);
     }
+    
 
     /**
      * Remove the specified resource from storage.
