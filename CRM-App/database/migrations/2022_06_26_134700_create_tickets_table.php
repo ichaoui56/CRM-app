@@ -15,7 +15,10 @@ return new class extends Migration
             $table->string('id')->primary();
             $table->string('service_type');
             $table->text('problem_description');
-            $table->enum('status', ['diagnostic', 'waiting_for_parts', 'in_repair', 'completed']);
+            $table->timestamp('diagnostic_date')->nullable();
+            $table->timestamp('preparation_date')->nullable();    
+            $table->timestamp('finished_date')->nullable();    
+            $table->enum('status', ['created','diagnostic', 'waiting_for_parts', 'preparation', 'finished']);
             $table->timestamps();
             
             $table->foreignId('contact_id')->constrained()->onDelete('cascade');
