@@ -6,26 +6,32 @@ const useTicketDetails = (id) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchTicket = async () => {
-      try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/ticket/${id}`);
-        console.log(response);
-        setTicket(response.data);
-      } catch (error) {
-        console.error("Error fetching ticket:", error);
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchTicketDetails = async () => {
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:8000/api/ticket/${id}`
+      );
+      setTicket(response.data);
+    } catch (error) {
+      console.error("Error fetching ticket:", error);
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  const refetch = () => {
+    setLoading(true);
+    fetchTicketDetails();
+  };
+
+  useEffect(() => {
     if (id) {
-      fetchTicket();
+      fetchTicketDetails();
     }
   }, [id]);
 
-  return { ticket, loading, error };
+  return { ticket, loading, error, refetch };
 };
 
 export default useTicketDetails;
