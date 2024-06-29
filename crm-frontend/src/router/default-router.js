@@ -31,6 +31,7 @@ import TableData from "../views/dashboard/table/table-data";
 import Solid from "../views/dashboard/icons/solid";
 import Outline from "../views/dashboard/icons/outline";
 import DualTone from "../views/dashboard/icons/dual-tone";
+import OrderAdd from "../views/dashboard/orders/order-add";
 
 export const DefaultRouter = [
   {
@@ -45,6 +46,14 @@ export const DefaultRouter = [
       {
         path: "/dashboard/parts/parts-list",
         element: <PrivateRoute element={PartsList} />,
+      },
+      {
+        path: "/dashboard/orders/order-add",
+        element: <PrivateRoute element={OrderAdd} />,
+      },
+      {
+        path: "/dashboard/parts/parts-add",
+        element: <PrivateRoute element={PartAdd} />,
       },
       {
         path: "/dashboard/tickets/ticket-list",
