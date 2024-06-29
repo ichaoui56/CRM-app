@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
+import { useNavigate } from 'react-router-dom';
 import useTickets from '../../../hooks/useTicket';
 import styled from 'styled-components';
 
@@ -36,6 +37,7 @@ const TicketsTable = () => {
     const { tickets, loading, error } = useTickets();
     const [search, setSearch] = useState('');
     const [filteredTickets, setFilteredTickets] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         setFilteredTickets(tickets);
@@ -127,7 +129,7 @@ const TicketsTable = () => {
         },
     ];
     const handleRowClick = (row) => {
-        window.location.href = `ticket-details/${row.id}`; // Navigate to ticket details page
+        navigate(`/dashboard/tickets/ticket-details/${row.id}`); 
     };
 
     if (loading) return <p>Loading...</p>;
