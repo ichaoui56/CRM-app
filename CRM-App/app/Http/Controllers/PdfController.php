@@ -2,18 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Ticket;
-use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Log;
 
-class TicketController extends Controller
+class PdfController extends Controller
 {
-    public function generatePdf($id)
+    public function generateTicketPdf($id)
     {
-        $ticket = Ticket::with(['contact', 'orders.parts', 'technician', 'laptop'])->findOrFail($id);
+        try {
+            $ticket = Ticket::with(['contact.client', 'orders.parts', 'technician', 'laptop'])->findOrFail($id);
 
-        $pdf = PDF::loadView('pdf.ticket', compact('ticket'));
+            // Log ticket data for debugging
+            Log::info('Ticket ID:', ['id' => $id]);
+            Log::info('Ticket data:', ['ticket' => $ticket]);
 
-        return $pdf->download('ticket.pdf');
+            // Generate PDF
+            $pdf = PDF::loadView('pdf', compact('ticket'));
+            
+            // Increase memory limit if needed
+            ini_set('memory_limit', '256M'); // Adjust as needed
+
+            return $pdf->download('ticket.pdf');
+        } catch (\Exception $e) {
+            Log::error('PDF generation failed:', ['error' => $e->getMessage()]);
+            return back()->withErrors('PDF generation failed. Please try again.');
+        }
     }
 }

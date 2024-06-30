@@ -22,7 +22,6 @@ const useTickets = () => {
 
         fetchTickets();
     }, []);
-console.log(tickets);
     return { tickets, loading, error };
 };
 

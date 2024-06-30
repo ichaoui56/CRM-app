@@ -25,6 +25,7 @@ Route::middleware(['auth:sanctum'])->get('/authUser', function (Request $request
     return $request->user();
 });
 
+Route::get('ticketPdf/{id}/', [PdfController::class, 'generateTicketPdf']);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/cities', function (Request $request) {
         return City::all();
@@ -37,7 +38,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/users/{id}', [UserController::class, 'destroy']);
     Route::post('/addTicket', [TicketController::class, 'addTicket']);
     Route::get('/parts', [PartController::class, 'index']);
-    Route::get('ticketPdf/{id}/', [PdfController::class, 'generateTicketPdf']);
     Route::get('/tickets', [TicketController::class, 'index']);
     Route::delete('/parts/{id}', [PartController::class, 'destroy']);
     Route::post('/part', [PartController::class, 'store']);

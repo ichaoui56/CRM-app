@@ -153,7 +153,6 @@ const Header = memo((props) => {
         <Container fluid className="navbar-inner">
           <Link to="/dashboard" className="navbar-brand">
             <Logo color={true} />
-            <h4 className="logo-title">Hope UI</h4>
           </Link>
           <div
             className="sidebar-toggle"
