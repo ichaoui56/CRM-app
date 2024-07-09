@@ -5,7 +5,6 @@ import { Button } from "react-bootstrap";
 import Header from "../../components/partials/dashboard/HeaderStyle/header";
 import SubHeader from "../../components/partials/dashboard/HeaderStyle/sub-header";
 import Sidebar from "../../components/partials/dashboard/SidebarStyle/sidebar";
-import Footer from "../../components/partials/dashboard/FooterStyle/footer";
 import SettingOffCanvas from "../../components/setting/SettingOffCanvas";
 import Loader from "../../components/Loader";
 import * as SettingSelector from "../../store/setting/selectors.ts";
@@ -42,7 +41,6 @@ const Default = memo(() => {
         <div className="btn-download">
          
         </div>
-        <Footer />
       </main>
       <SettingOffCanvas />
     </Fragment>

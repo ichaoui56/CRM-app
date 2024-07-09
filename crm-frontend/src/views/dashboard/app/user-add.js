@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Row, Col, Image, Form, Button } from "react-bootstrap";
@@ -28,14 +28,34 @@ const UserAdd = () => {
   });
 
   const { cities, loading, error } = useCities();
+  const fileInputRef = useRef(null); // Ref for accessing file input
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    setFormData({
-      ...formData,
-      [name]: files ? files[0] : value,
-    });
+    if (files) {
+      // Assuming you want to show the first selected file
+      setFormData({
+        ...formData,
+        [name]: files[0],
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
+  const handleUploadClick = () => {
+    // Click the file input element programmatically
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+  let profilePicUrl = ""; // Default empty URL
+  if (formData.profile_picture) {
+    // If a profile picture file is selected
+    profilePicUrl = URL.createObjectURL(formData.profile_picture); // Create URL for preview
+  }
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -127,35 +147,18 @@ const UserAdd = () => {
                   <div className="profile-img-edit position-relative">
                     <Image
                       className="theme-color-default-img profile-pic rounded avatar-100"
-                      src={avatars1}
+                      src={
+                        formData.profile_picture
+                          ? URL.createObjectURL(formData.profile_picture)
+                          : avatars1
+                      }
                       alt="profile-pic"
                     />
-                    <Image
-                      className="theme-color-purple-img profile-pic rounded avatar-100"
-                      src={avatars2}
-                      alt="profile-pic"
-                    />
-                    <Image
-                      className="theme-color-blue-img profile-pic rounded avatar-100"
-                      src={avatars3}
-                      alt="profile-pic"
-                    />
-                    <Image
-                      className="theme-color-green-img profile-pic rounded avatar-100"
-                      src={avatars5}
-                      alt="profile-pic"
-                    />
-                    <Image
-                      className="theme-color-yellow-img profile-pic rounded avatar-100"
-                      src={avatars6}
-                      alt="profile-pic"
-                    />
-                    <Image
-                      className="theme-color-pink-img profile-pic rounded avatar-100"
-                      src={avatars4}
-                      alt="profile-pic"
-                    />
-                    <div className="upload-icone bg-primary">
+                   
+                    <div
+                      className="upload-icone bg-primary"
+                      onClick={handleUploadClick}
+                    >
                       <svg
                         className="upload-button"
                         width="14"
@@ -167,8 +170,10 @@ const UserAdd = () => {
                           d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z"
                         />
                       </svg>
+                      {/* Hidden file input */}
                       <Form.Control
-                        className=""
+                        ref={fileInputRef}
+                        className="d-none"
                         type="file"
                         accept="image/*"
                         name="profile_picture"

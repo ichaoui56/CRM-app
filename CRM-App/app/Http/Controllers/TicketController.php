@@ -15,8 +15,9 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $tickets = Ticket::with(['contact', 'laptop', 'technician'])->get();
-
+        $tickets = Ticket::with(['contact', 'laptop', 'technician'])
+        ->latest() 
+        ->get();
         return response()->json($tickets);
     }
 

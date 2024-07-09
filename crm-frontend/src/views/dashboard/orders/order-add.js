@@ -10,8 +10,7 @@ const OrderAdd = () => {
     const { tickets, loading, error } = useTickets();
     const { parts, setParts } = useParts();
     const [formData, setFormData] = useState({
-        dps_number: '',
-        ups_tracking_number: '',
+        diagnostic_content: '',
         ordered_at: '',
         arrived_at: '',
         status: 'ordered',
@@ -79,11 +78,10 @@ const OrderAdd = () => {
                     icon: 'success',
                     confirmButtonText: 'OK'
                 });
-
+                console.log(formData);
                 // Clear form inputs
                 setFormData({
-                    dps_number: '',
-                    ups_tracking_number: '',
+                    diagnostic_content: '',
                     ordered_at: '',
                     status: 'ordered',
                     ticket_id: '',
@@ -127,32 +125,7 @@ const OrderAdd = () => {
                             <p className="d-flex justify-content-center">Here you can add a new order including selecting a ticket and multiple parts</p>
                             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                                 <Row className="mb-3 d-flex justify-content-center">
-                                    <Col md="6">
-                                        <Form.Group controlId="validationCustom01">
-                                            <Form.Label>DPS Number</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                name="dps_number"
-                                                value={formData.dps_number}
-                                                onChange={handleChange}
-                                                required
-                                            />
-                                            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                                        </Form.Group>
-                                    </Col>
-                                    <Col md="6">
-                                        <Form.Group controlId="validationCustom02">
-                                            <Form.Label>UPS Tracking Number</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                name="ups_tracking_number"
-                                                value={formData.ups_tracking_number}
-                                                onChange={handleChange}
-                                                required
-                                            />
-                                            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                                        </Form.Group>
-                                    </Col>
+                                
                                     <Col md="6">
                                         <Form.Group controlId="validationCustom06">
                                             <Form.Label>Ticket ID</Form.Label>
@@ -178,6 +151,20 @@ const OrderAdd = () => {
                                             Select Parts
                                         </Button>
                                     </Col>
+                                    <Col md="12">
+                                        <Form.Group controlId="validationCustom01">
+                                            <Form.Label>Diagnostic Content</Form.Label>
+                                            <Form.Control
+                                                as="textarea" // Render as textarea
+                                                name="diagnostic_content"
+                                                value={formData.diagnostic_content}
+                                                onChange={handleChange}
+                                                required
+                                            />
+                                            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                        </Form.Group>
+                                    </Col>
+                                    
                                     <hr className='mb-3 mt-3' />
                                     <div className="col-12 d-flex justify-content-center">
                                         <Button variant="btn btn-primary" type="submit">Add Order</Button>
@@ -231,3 +218,4 @@ const OrderAdd = () => {
 };
 
 export default OrderAdd;
+

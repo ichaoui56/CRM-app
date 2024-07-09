@@ -6,12 +6,15 @@ import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import imgsuccess from '../../../assets/images/pages/img-success.png';
+import useCities from "../../../hooks/useCities";
+
 
 const TicketAdd = () => {
     const [values, setValues] = useState({});
     const [errors, setErrors] = useState({});
     const [show, AccountShow] = useState('A');
     const [technicians, setTechnicians] = useState([]); 
+    const { cities } = useCities(); // Destructure cities from useCities hook
 
     const validateStep = (step) => {
         let newErrors = {};
@@ -274,13 +277,21 @@ const TicketAdd = () => {
                                                 <div className="col-md-6">
                                                     <div className="form-group">
                                                         <label className="form-label">City:*</label>
-                                                        <input
-                                                            type="text"
-                                                            className={`form-control ${errors.clientCity ? 'is-invalid' : values.clientCity ? 'is-valid' : ''}`}
+                                                        <select
+                                                            className={`form-control ${
+                                                                errors.clientCity ? "is-invalid" : values.clientCity ? "is-valid" : ""
+                                                            }`}
                                                             name="clientCity"
-                                                            placeholder="Client city"
+                                                            value={values.clientCity}
                                                             onChange={handleInputChange}
-                                                        />
+                                                        >
+                                                            <option value="">Select a city</option>
+                                                            {cities.map((city) => (
+                                                                <option key={city.id} value={city.name}>
+                                                                    {city.name}
+                                                                </option>
+                                                            ))}
+                                                        </select>
                                                         {errors.clientCity && <div className="invalid-feedback">{errors.clientCity}</div>}
                                                     </div>
                                                 </div>

@@ -16,6 +16,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import { saveAs } from "file-saver";
+import printJS from 'print-js';
 
 const TicketDetail = () => {
   const [toggler, setToggler] = useState();
@@ -70,7 +71,8 @@ const TicketDetail = () => {
       );
 
       const pdfBlob = new Blob([response.data], { type: "application/pdf" });
-      saveAs(pdfBlob, "ticket.pdf");
+      const pdfUrl = URL.createObjectURL(pdfBlob);
+      window.open(pdfUrl); // Open the PDF in a new window
     } catch (error) {
       console.error("Error generating PDF:", error);
       Swal.fire({
@@ -79,6 +81,18 @@ const TicketDetail = () => {
         text: error,
       });
     }
+  };
+
+  const handlePrintPdf = () => {
+    axios
+      .get(`http://127.0.0.1:8000/api/ticketPdf/${id}`, { responseType: 'blob' })
+      .then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        printJS(url);
+      })
+      .catch((error) => {
+        console.error('Error generating PDF:', error);
+      });
   };
 
   const statusOptions = ["created", "diagnostic", "in_repair", "finished"];
@@ -277,12 +291,12 @@ const TicketDetail = () => {
           <Col lg="4">
             <div
               className="d-flex align-items-center position-absolute"
-              style={{ top: "150px", right: "100px" }}
+              style={{ top: "150px", right: "200px" }}
             >
               <Button
                 className="d-flex align-items-center position-absolute"
                 style={{ color: "white" }}
-                onClick={handleGeneratePdf}
+                onClick={handlePrintPdf}
               >
                 <svg
                   width="20"

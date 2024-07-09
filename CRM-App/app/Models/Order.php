@@ -10,7 +10,7 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
-        'dps_number', 'ups_tracking_number', 'ordered_at', 'arrived_at', 'status',
+        'diagnostic_content', 'ordered_at', 'arrived_at', 'status',
         'ticket_id', 'technician_id'
     ];
 

@@ -3,7 +3,7 @@ import { Navbar, Container, Nav, Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import CustomToggle from "../../../dropdowns";
 import { useDispatch, useSelector } from "react-redux";
-
+import UserData from "../../../../hooks/useUserData.js";
 //img
 import flag1 from "../../../../assets/images/Flag/flag001.png";
 import flag2 from "../../../../assets/images/Flag/flag-02.png";
@@ -30,14 +30,13 @@ import Logo from "../../components/logo";
 import * as SettingSelector from "../../../../store/setting/selectors.ts";
 
 const Header = memo((props) => {
-  const [user, setUser] = useState(null);
   const navbarHide = useSelector(SettingSelector.navbar_show); // array
   const headerNavbar = useSelector(SettingSelector.header_navbar);
+  const { user, setUser } = UserData();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetchUserData();
     // navbarstylemode
     if (headerNavbar === "navs-sticky" || headerNavbar === "nav-glass") {
       window.onscroll = () => {
@@ -51,25 +50,7 @@ const Header = memo((props) => {
       };
     }
   }, [dispatch]);
-  const fetchUserData = async () => {
-    const token = localStorage.getItem("token");
-    try {
-      const response = await fetch("http://127.0.0.1:8000/api/authUser", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const userData = await response.json();
-      setUser(userData); // Update state with user data
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
+  
   const handleLogout = () => {
     localStorage.removeItem("token"); // Remove token from local storage
     // Redirect to sign-in page or any other page
@@ -572,9 +553,7 @@ const Header = memo((props) => {
                   <Dropdown.Item>
                     <Link to="/dashboard/app/user-profile">Profile</Link>
                   </Dropdown.Item>
-                  <Dropdown.Item href="https://templates.iqonic.design/hope-ui/react/build/dashboard/app/user-privacy-setting">
-                    Privacy Setting
-                  </Dropdown.Item>
+                 
                   <Dropdown.Divider />
                   <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
                 </Dropdown.Menu>

@@ -11,7 +11,7 @@ class Ticket extends Model
 
     public $incrementing = false; // Disable auto-incrementing
     protected $primaryKey = 'id'; // Specify 'ticket_id' as primary key
-    protected $keyType = 'string'; // Ensure 'ticket_id' is treated as a string
+    protected $keyType = 'string'; 
 
     protected $fillable = [
         'id',
@@ -24,6 +24,10 @@ class Ticket extends Model
         'diagnostic_date',
         'preparation_date',
         'finished_date',
+    ];
+
+    protected $dates = [
+        'created_at', 'updated_at', 'diagnostic_date', 'preparation_date', 'finished_date'
     ];
 
     public function contact()
