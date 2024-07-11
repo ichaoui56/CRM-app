@@ -103,13 +103,13 @@ const TicketDetail = () => {
     {
       label: "Creation of ticket",
       date: ticket.created_at,
-      borderColor: ticket.created_at ? "primary" : "gray",
+      borderColor: ticket.created_at ? "success" : "danger",
       description: "The ticket was created.",
     },
     {
       label: "Diagnostic by the technician",
       date: ticket.diagnostic_date,
-      borderColor: ticket.diagnostic_date ? "primary" : "gray",
+      borderColor: ticket.diagnostic_date ? "success" : "danger",
       description: "The technician performed a diagnostic.",
     },
     {
@@ -118,7 +118,7 @@ const TicketDetail = () => {
       borderColor:
         ticket.orders.length > 0 && ticket.orders[0].ordered_at
           ? "success"
-          : "gray",
+          : "danger",
       description: "Parts were ordered for the repair.",
     },
     {
@@ -126,20 +126,20 @@ const TicketDetail = () => {
       date: ticket.orders.length > 0 ? ticket.orders[0].arrived_at : null,
       borderColor:
         ticket.orders.length > 0 && ticket.orders[0].arrived_at
-          ? "danger"
-          : "gray",
+          ? "success"
+          : "danger",
       description: "The ordered parts arrived.",
     },
     {
       label: "Prepare the laptop",
       date: ticket.preparation_date,
-      borderColor: ticket.preparation_date ? "warning" : "gray",
+      borderColor: ticket.preparation_date ? "success" : "danger",
       description: "The laptop is being prepared for repair.",
     },
     {
       label: "Done",
       date: ticket.finished_date,
-      borderColor: ticket.finished_date ? "success" : "gray",
+      borderColor: ticket.finished_date ? "success" : "danger",
       description: "The repair is complete.",
     },
   ];
