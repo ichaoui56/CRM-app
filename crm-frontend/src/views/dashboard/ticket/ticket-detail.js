@@ -420,7 +420,7 @@ const TicketDetail = () => {
             <Card>
               <Card.Header>
                 <div className="header-title">
-                  <h4 className="card-title">Laptop</h4>
+                  <h4 className="card-title">Computer</h4>
                 </div>
               </Card.Header>
               <Card.Body>

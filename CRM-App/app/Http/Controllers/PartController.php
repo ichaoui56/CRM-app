@@ -39,7 +39,7 @@ class PartController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|min:4|max:255|unique:parts,name',
-            'part_description' => 'required|string',
+            // 'part_description' => 'required|string',
             'part_picture' => 'required|image|mimes:jpeg,png,jpg,gif,webp,avif|max:2048',
         ]);
 
@@ -49,7 +49,7 @@ class PartController extends Controller
 
         $part = new Part();
         $part->name = $request->name;
-        $part->part_description = $request->part_description;
+        // $part->part_description = $request->part_description;
 
         if ($request->hasFile('part_picture')) {
             $image = $request->file('part_picture');
@@ -82,7 +82,7 @@ class PartController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|min:4|max:255',
-            'part_description' => 'required|string',
+            // 'part_description' => 'required|string',
             'part_picture' => 'nullable|string', // Validate the Base64 string
         ]);
 
@@ -91,7 +91,7 @@ class PartController extends Controller
         }
 
         $part->name = $request->input('name');
-        $part->part_description = $request->input('part_description');
+        // $part->part_description = $request->input('part_description');
 
         if ($request->filled('part_picture')) {
             // Handle the Base64 image

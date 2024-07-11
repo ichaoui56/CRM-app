@@ -105,6 +105,7 @@
     </style>
 </head>
 {{-- @dd($ticket) --}}
+
 <body>
     <div class="container">
         <table class="header-table">
@@ -121,7 +122,11 @@
             </tr>
         </table>
 
-        <h1>Bon de reception</h1>
+        @if ($ticket->finished_date)
+            <h1>Bon de livraison</h1>
+        @else
+            <h1>Bon de reception</h1>
+        @endif
 
         <table class="info-table">
             <tr>
@@ -134,7 +139,7 @@
             </tr>
             <tr>
                 <th>Date de sortie</th>
-                <td>{{ $ticket->finished_date ? $ticket->finished_date : '-'  }}</td>
+                <td>{{ $ticket->finished_date ? $ticket->finished_date : '-' }}</td>
                 </td>
             </tr>
             <tr>
@@ -221,8 +226,8 @@
 
         <table class="signature-table">
             <tr>
-                <td><strong>Signature pour l'entreprise:</strong></td>
-                <td><strong>Signature pour le client:</strong></td>
+                <td><strong>Signature Cbi/Dell:</strong></td>
+                <td><strong>Signature client:</strong></td>
             </tr>
         </table>
     </div>

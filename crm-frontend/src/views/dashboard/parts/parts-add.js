@@ -8,7 +8,6 @@ const PartAdd = () => {
     const [validated, setValidated] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
-        part_description: '',
         part_picture: null
     });
 
@@ -51,7 +50,6 @@ const PartAdd = () => {
                 // Clear form inputs
                 setFormData({
                     name: '',
-                    part_description: '',
                     part_picture: null
                 });
                 setValidated(false);
@@ -105,19 +103,7 @@ const PartAdd = () => {
                                             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                                         </Form.Group>
                                     </Col>
-                                    <Col md="6">
-                                        <Form.Group controlId="validationCustom02">
-                                            <Form.Label>Description</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                name="part_description"
-                                                value={formData.part_description}
-                                                onChange={handleChange}
-                                                required
-                                            />
-                                            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                                        </Form.Group>
-                                    </Col>
+                                  
                                     <Col md="6">
                                         <Form.Group controlId="validationCustom03">
                                             <Form.Label>Part Picture</Form.Label>

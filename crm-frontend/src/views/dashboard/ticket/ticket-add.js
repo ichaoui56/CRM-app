@@ -143,7 +143,7 @@ const TicketAdd = () => {
                                                             stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                                     </svg>
                                                 </div>
-                                                <span>Laptop</span>
+                                                <span>Computer</span>
                                             </Link>
                                         </li>
                                         <li id="payment" className={`${show === 'Image' ? ' active done' : ''} ${show === 'Personal' ? 'active' : ''} col-lg-3 col-md-6 mb-2 text-start`}>
@@ -339,6 +339,19 @@ const TicketAdd = () => {
                                                 </div>
                                                 <div className="col-md-4">
                                                     <div className="form-group">
+                                                        <label className="form-label">Reference: *</label>
+                                                        <input
+                                                            type="text"
+                                                            className={`form-control ${errors.modelNo ? 'is-invalid' : values.modelNo ? 'is-valid' : ''}`}
+                                                            name="modelNo"
+                                                            placeholder="Model Number"
+                                                            onChange={handleInputChange}
+                                                        />
+                                                        {errors.modelNo && <div className="invalid-feedback">{errors.modelNo}</div>}
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-4">
+                                                    <div className="form-group">
                                                         <label className="form-label">Tag No: *</label>
                                                         <input
                                                             type="text"
@@ -348,19 +361,6 @@ const TicketAdd = () => {
                                                             onChange={handleInputChange}
                                                         />
                                                         {errors.tagNo && <div className="invalid-feedback">{errors.tagNo}</div>}
-                                                    </div>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <div className="form-group">
-                                                        <label className="form-label">Model No: *</label>
-                                                        <input
-                                                            type="text"
-                                                            className={`form-control ${errors.modelNo ? 'is-invalid' : values.modelNo ? 'is-valid' : ''}`}
-                                                            name="modelNo"
-                                                            placeholder="Model Number"
-                                                            onChange={handleInputChange}
-                                                        />
-                                                        {errors.modelNo && <div className="invalid-feedback">{errors.modelNo}</div>}
                                                     </div>
                                                 </div>
                                                 <div className="row">

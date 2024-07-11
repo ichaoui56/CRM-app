@@ -20,7 +20,7 @@ const PartsList = () => {
   };
 
   const handleEdit = async () => {
-    if (!selectedPart || !selectedPart.name || !selectedPart.part_description) {
+    if (!selectedPart || !selectedPart.name ) {
       console.error("Selected part data is incomplete");
       return;
     }
@@ -32,7 +32,6 @@ const PartsList = () => {
 
     const payload = {
       name: selectedPart.name,
-      part_description: selectedPart.part_description,
       part_picture: base64Image,
     };
 
@@ -168,11 +167,7 @@ const PartsList = () => {
                   </div>
                   <p className="card-text">{formatDate(part.created_at)}</p>
                 </div>
-                <p className="card-text">
-                  {part.part_description.length > 70
-                    ? `${part.part_description.substring(0, 70)}...`
-                    : part.part_description}
-                </p>
+               
                 <div className="d-flex justify-content-between">
                   <Button
                     variant="danger"
@@ -189,7 +184,7 @@ const PartsList = () => {
                       setSelectedPart({
                         id: part.id,
                         name: part.name,
-                        part_description: part.part_description,
+                      
                         part_picture: part.part_picture,
                       });
                       setShowEditModal(true);
@@ -233,16 +228,6 @@ const PartsList = () => {
                 type="text"
                 name="name"
                 value={selectedPart?.name || ""}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="formPartDescription">
-              <Form.Label>Part Description</Form.Label>
-              <Form.Control
-                as="textarea"
-                name="part_description"
-                rows={3}
-                value={selectedPart?.part_description || ""}
                 onChange={handleInputChange}
               />
             </Form.Group>
